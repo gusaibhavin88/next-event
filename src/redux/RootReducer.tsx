@@ -1,5 +1,5 @@
 import { AnyAction, combineReducers } from "@reduxjs/toolkit";
-import authSliceReducer from "./slices/auth/signIn/signIn";
+import authSliceReducer from "./slices/auth/signIn";
 
 const combinedReducer = combineReducers({
   auth: authSliceReducer,
