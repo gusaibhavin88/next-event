@@ -1,6 +1,8 @@
 "use client";
+import { postSignin } from "@/redux/slices/auth/signIn/signIn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { z } from "zod";
 
 const loginSchema = z.object({
@@ -9,6 +11,8 @@ const loginSchema = z.object({
 });
 
 export const SignInForm = () => {
+
+    const dispatch = useDispatch();
     const {
         register,
         setError,
@@ -19,6 +23,10 @@ export const SignInForm = () => {
     } = useForm({ resolver: zodResolver(loginSchema) });
 
     const onSubmit: any = (data: { emil: string, password: string }) => {
+        dispatch(postSignin(data)).then((res: any) => {
+
+
+        })
     };
     return (
         <div className="flex flex-col items-center  p-4 border  text-center h-[350px] ">
