@@ -1,7 +1,9 @@
 "use client";
-import { postSignin } from "@/redux/slices/auth";
+import { postSignin } from "@/redux/slices/auth/signIn";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { z } from "zod";
 
@@ -12,6 +14,7 @@ const loginSchema = z.object({
 
 export const SignInForm = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const {
     register,
     setError,
@@ -22,7 +25,17 @@ export const SignInForm = () => {
   } = useForm({ resolver: zodResolver(loginSchema) });
 
   const onSubmit: any = (data: { emil: string; password: string }) => {
-    dispatch(postSignin(data)).then((res: any) => {});
+    dispatch(postSignin(data)).then((res: any) => {
+      console.log(res?.payload?.success, "res?.payload?.success");
+      if (res?.payload?.success) {
+        toast.success(res.payload.message);
+        router.replace("/");
+      }
+
+      // else {
+      //   toast.error(res.payload.message);
+      // }
+    });
   };
   return (
     <div className="flex flex-col items-center  p-4 border  text-center h-[350px] ">

@@ -51,9 +51,7 @@ export const signinSlice = createSlice({
         if (action.payload.status == 1) {
           localStorage.setItem("token", action.payload.data.token);
           state.userData = action.payload.data.user;
-          toast.success(action.payload.message);
         } else {
-          toast.error(action.payload.message);
         }
       })
       .addCase(postSignin.rejected, (state) => {
