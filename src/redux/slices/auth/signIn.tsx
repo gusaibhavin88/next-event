@@ -10,6 +10,7 @@ type UserData = {
 interface SigninState {
   loading: boolean;
   userData: {};
+  isAuthenticated: boolean;
 }
 
 interface PostSigninResponse {
@@ -20,6 +21,7 @@ interface PostSigninResponse {
 const initialState: SigninState = {
   loading: false,
   userData: {},
+  isAuthenticated: false,
 };
 
 export const postSignin: any = createAsyncThunk(
@@ -45,17 +47,17 @@ export const signinSlice = createSlice({
     builder
       .addCase(postSignin.pending, (state) => {
         state.loading = true;
+        state.isAuthenticated = false;
       })
       .addCase(postSignin.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload.status == 1) {
-          localStorage.setItem("token", action.payload.data.token);
-          state.userData = action.payload.data.user;
-        } else {
-        }
+        localStorage.setItem("token", action.payload.data.token);
+        state.isAuthenticated = true;
+        state.userData = action.payload.data;
       })
       .addCase(postSignin.rejected, (state) => {
         state.loading = false;
+        state.isAuthenticated = false;
       });
   },
 });
